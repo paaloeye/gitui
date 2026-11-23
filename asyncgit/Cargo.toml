@@ -23,8 +23,6 @@ gix = { version = "0.84.0", default-features = false, features = ["mailmap", "ma
 log = "0.4"
 # git2 = { path = "../../extern/git2-rs", features = ["vendored-openssl"]}
 # git2 = { git="https://github.com/extrawurst/git2-rs.git", rev="fc13dcc", features = ["vendored-openssl"]}
-# pinning to vendored openssl, using the git2 feature this gets lost with new resolver
-openssl-sys = { version = "0.9", features = ["vendored"], optional = true }
 rayon = "1.11"
 rayon-core = "1.13"
 scopetime = { path = "../scopetime", version = "0.1" }
@@ -33,6 +31,11 @@ tempfile = "3"
 thiserror = "2.0"
 unicode-truncate = "2.0"
 url = "2.5"
+
+# pinning to vendored openssl, using the git2 feature this gets lost with new resolver
+# not needed on windows: libgit2 uses WinHTTP (Schannel) there
+[target.'cfg(not(windows))'.dependencies]
+openssl-sys = { version = "0.9", features = ["vendored"], optional = true }
 
 [dev-dependencies]
 env_logger = "0.11"
